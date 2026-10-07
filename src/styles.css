@@ -1,72 +1,632 @@
-export type MarketRow = {
-  symbol: string;
-  exchange: string;
-  price: number;
-  hourChange: number;
-  dayChange: number;
-  volume: number;
-  signal: "BUY" | "SELL" | "WATCH";
-};
+* {
+  box-sizing: border-box;
+}
 
-export type Metric = {
-  label: string;
-  value: string;
-  delta: string;
-  positive: boolean;
-};
+:root {
+  color-scheme: dark;
+  --bg: #070b12;
+  --bg-2: #0d141d;
+  --panel: rgba(16, 23, 32, 0.95);
+  --panel-alt: rgba(12, 17, 24, 0.9);
+  --line: rgba(173, 188, 206, 0.12);
+  --text: #edf5ff;
+  --muted: #9aa9bb;
+  --green: #39d98a;
+  --green-soft: rgba(57, 217, 138, 0.12);
+  --red: #ff6b6b;
+  --red-soft: rgba(255, 107, 107, 0.12);
+  --amber: #f7c76a;
+  --blue: #5ea2ff;
+  --shadow: 0 18px 40px rgba(7, 11, 18, 0.45);
+}
 
-export type PredictionCard = {
-  symbol: string;
-  bias: "Bullish" | "Bearish";
-  confidence: number;
-  note: string;
-};
+html, body, #root {
+  margin: 0;
+  min-height: 100%;
+  font-family: Inter, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(94, 162, 255, 0.12), transparent 28%),
+    linear-gradient(180deg, #070b12 0%, #0b1118 100%);
+  color: var(--text);
+}
 
-export type Strategy = {
-  name: string;
-  status: string;
-  rr: string;
-};
+body {
+  min-height: 100vh;
+}
 
-export type Position = {
-  symbol: string;
-  side: "LONG" | "SHORT";
-  size: string;
-  entry: number;
-  pnl: number;
-};
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-export const metrics: Metric[] = [
-  { label: "Market cap", value: "$2.49T", delta: "+2.4%", positive: true },
-  { label: "24h volume", value: "$91.3B", delta: "+6.7%", positive: true },
-  { label: "Active bots", value: "18", delta: "+3", positive: true },
-  { label: "Win rate", value: "67.8%", delta: "-1.2%", positive: false },
-];
+button {
+  font: inherit;
+}
 
-export const marketRows: MarketRow[] = [
-  { symbol: "BTC/USDT", exchange: "Binance", price: 68422.1, hourChange: 1.8, dayChange: 4.3, volume: 5200000000, signal: "BUY" },
-  { symbol: "ETH/USDT", exchange: "Bybit", price: 3528.42, hourChange: -0.6, dayChange: 2.1, volume: 2900000000, signal: "WATCH" },
-  { symbol: "SOL/USDT", exchange: "OKX", price: 168.09, hourChange: 3.1, dayChange: 7.8, volume: 1800000000, signal: "BUY" },
-  { symbol: "XRP/USDT", exchange: "Kraken", price: 0.622, hourChange: 2.4, dayChange: 5.9, volume: 980000000, signal: "BUY" },
-  { symbol: "DOGE/USDT", exchange: "Bitget", price: 0.176, hourChange: 4.8, dayChange: 11.2, volume: 760000000, signal: "BUY" },
-  { symbol: "ADA/USDT", exchange: "Gate", price: 0.73, hourChange: -1.2, dayChange: -0.9, volume: 520000000, signal: "SELL" },
-];
+.app-shell {
+  width: min(1440px, calc(100% - 32px));
+  margin: 24px auto 40px;
+}
 
-export const predictionCards: PredictionCard[] = [
-  { symbol: "BTC", bias: "Bullish", confidence: 81, note: "Trend continuation above 68k" },
-  { symbol: "ETH", bias: "Bullish", confidence: 76, note: "Breakout on 1H structure" },
-  { symbol: "SOL", bias: "Bullish", confidence: 88, note: "Momentum acceleration" },
-  { symbol: "LINK", bias: "Bearish", confidence: 61, note: "Range pressure building" },
-];
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 20px;
+  background: rgba(10, 15, 22, 0.82);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
 
-export const strategies: Strategy[] = [
-  { name: "Trend Pulse", status: "Running", rr: "1.9R" },
-  { name: "Grid Alpha", status: "Paused", rr: "1.5R" },
-  { name: "Breakout AI", status: "Running", rr: "2.3R" },
-];
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-export const positions: Position[] = [
-  { symbol: "BTC", side: "LONG", size: "0.42 BTC", entry: 67890.0, pnl: 820.4 },
-  { symbol: "SOL", side: "LONG", size: "42 SOL", entry: 162.8, pnl: 220.2 },
-  { symbol: "ETH", side: "SHORT", size: "0.82 ETH", entry: 3590.1, pnl: -48.3 },
-];
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--blue), #7a74ff);
+  font-weight: 800;
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.eyebrow.accent {
+  color: var(--blue);
+}
+
+.brand-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.nav a {
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.nav a:hover {
+  color: var(--text);
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.primary-button,
+.ghost-button {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.2s ease;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, var(--blue), #7d6dff);
+  color: white;
+  border: none;
+  font-weight: 600;
+}
+
+.ghost-button {
+  background: rgba(255,255,255,0.02);
+  color: var(--text);
+}
+
+.primary-button:hover,
+.ghost-button:hover {
+  transform: translateY(-1px);
+}
+
+.small {
+  padding: 0.55rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+.dashboard {
+  margin-top: 24px;
+  display: grid;
+  gap: 20px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 18px 18px 16px;
+}
+
+.hero-panel {
+  display: grid;
+  gap: 20px;
+}
+
+.hero-header,
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hero-header h1,
+.panel-header h2 {
+  margin: 6px 0 0 0;
+}
+
+.hero-header h1 {
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1.1;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(57, 217, 138, 0.2);
+  background: rgba(57, 217, 138, 0.08);
+  color: var(--green);
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.78rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 10px rgba(57, 217, 138, 0.8);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.metric-card {
+  background: linear-gradient(180deg, rgba(17, 24, 32, 0.9), rgba(11, 17, 23, 0.9));
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.metric-label {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+}
+
+.metric-value {
+  margin-top: 12px;
+  font-size: clamp(1.3rem, 2vw, 2rem);
+  font-weight: 700;
+}
+
+.metric-delta {
+  margin-top: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.positive { color: var(--green); }
+.negative { color: var(--red); }
+
+.content-grid,
+.lower-grid,
+.bottom-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2.1fr) minmax(320px, 0.9fr);
+  gap: 20px;
+}
+
+.side-stack {
+  display: grid;
+  gap: 20px;
+}
+
+.table-wrap {
+  margin-top: 16px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  color: var(--muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.selected-row {
+  background: rgba(94, 162, 255, 0.06);
+}
+
+tbody tr {
+  cursor: pointer;
+}
+
+.pair-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.coin-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, rgba(94, 162, 255, 0.2), rgba(125, 109, 255, 0.2));
+  color: var(--text);
+  font-weight: 700;
+}
+
+.coin-badge.alt {
+  background: linear-gradient(135deg, rgba(57, 217, 138, 0.2), rgba(94, 162, 255, 0.2));
+}
+
+.coin-stack {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.coin-name {
+  font-weight: 600;
+}
+
+.coin-meta {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.signal-pill {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 0.38rem 0.7rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.signal-pill.buy {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.signal-pill.sell {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.signal-pill.watch {
+  background: rgba(247, 199, 106, 0.12);
+  color: var(--amber);
+}
+
+.signal-list,
+.command-stack,
+.position-list,
+.trade-log,
+.strategy-grid,
+.monitor-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.prediction-card,
+.strategy-card,
+.command-card,
+.monitor-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.prediction-topline,
+.strategy-topline,
+.position-row,
+.log-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.prediction-score {
+  margin: 10px 0 6px;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.progress-bar {
+  height: 8px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+}
+
+.small-bar {
+  margin-top: 12px;
+}
+
+.prediction-foot,
+.strategy-meta,
+.log-time,
+.monitor-label {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.strategy-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 16px;
+}
+
+.strategy-name,
+.command-card strong {
+  font-weight: 600;
+}
+
+.strategy-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-top: 10px;
+}
+
+.mini-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mini-tag.live {
+  background: rgba(57, 217, 138, 0.12);
+  color: var(--green);
+}
+
+.mini-tag.paused {
+  background: rgba(247, 199, 106, 0.12);
+  color: var(--amber);
+}
+
+.mini-tag.standby {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+}
+
+.live-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.live-price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.big-price {
+  font-size: clamp(2rem, 3vw, 2.6rem);
+  font-weight: 700;
+}
+
+.sparkline {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 88px;
+  padding: 8px 0 4px;
+}
+
+.sparkline span {
+  flex: 1;
+  min-height: 12px;
+  display: block;
+  border-radius: 10px 10px 0 0;
+  background: linear-gradient(180deg, rgba(94, 162, 255, 0.9), rgba(94, 162, 255, 0.2));
+}
+
+.sparkline .bar-up {
+  background: linear-gradient(180deg, rgba(57, 217, 138, 0.8), rgba(57, 217, 138, 0.2));
+}
+
+.sparkline .bar-neutral {
+  background: linear-gradient(180deg, rgba(94, 162, 255, 0.9), rgba(94, 162, 255, 0.2));
+}
+
+.mini-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.mini-stats > div {
+  display: grid;
+  gap: 4px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.mini-stats span {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.position-row {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.position-row:last-child {
+  border-bottom: none;
+}
+
+.log-row {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.log-row:last-child {
+  border-bottom: none;
+}
+
+.log-pair {
+  font-weight: 600;
+}
+
+.log-side {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+}
+
+.log-side.buy {
+  background: rgba(57, 217, 138, 0.1);
+  color: var(--green);
+}
+
+.log-side.sell {
+  background: rgba(255, 107, 107, 0.1);
+  color: var(--red);
+}
+
+.command-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.monitor-panel {
+  margin-top: 4px;
+}
+
+.monitor-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 12px;
+}
+
+.monitor-card {
+  display: grid;
+  gap: 6px;
+}
+
+.monitor-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+@media (max-width: 980px) {
+  .content-grid,
+  .lower-grid,
+  .bottom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-grid,
+  .strategy-grid,
+  .monitor-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    width: min(100% - 20px, 1440px);
+    margin-top: 16px;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .topbar-actions {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .metric-grid,
+  .strategy-grid,
+  .monitor-grid,
+  .mini-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-header,
+  .panel-header,
+  .live-price-row,
+  .strategy-topline,
+  .log-row,
+  .position-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

@@ -1,453 +1,114 @@
-* {
-  box-sizing: border-box;
-}
-
-:root {
-  color-scheme: dark;
-  --bg: #070b12;
-  --bg-2: #0d141d;
-  --panel: rgba(16, 23, 32, 0.95);
-  --panel-alt: rgba(12, 17, 24, 0.9);
-  --line: rgba(173, 188, 206, 0.12);
-  --text: #edf5ff;
-  --muted: #9aa9bb;
-  --green: #39d98a;
-  --green-soft: rgba(57, 217, 138, 0.12);
-  --red: #ff6b6b;
-  --red-soft: rgba(255, 107, 107, 0.12);
-  --amber: #f7c76a;
-  --blue: #5ea2ff;
-  --shadow: 0 18px 40px rgba(7, 11, 18, 0.45);
-}
-
-html, body, #root {
-  margin: 0;
-  min-height: 100%;
-  font-family: Inter, "Segoe UI", sans-serif;
-  background:
-    radial-gradient(circle at top, rgba(94, 162, 255, 0.13), transparent 25%),
-    linear-gradient(180deg, #070b12 0%, #0b1118 100%);
-  color: var(--text);
-}
-
-body {
-  min-height: 100vh;
-}
-
-button {
-  font: inherit;
-}
-
-.app-shell {
-  width: min(1440px, calc(100% - 32px));
-  margin: 24px auto 40px;
-}
-
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 18px 20px;
-  background: rgba(10, 15, 22, 0.8);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(12px);
-}
-
-.brand-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--blue), #7a74ff);
-  font-weight: 800;
-}
-
-.eyebrow {
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: var(--muted);
-  text-transform: uppercase;
-}
-
-.eyebrow.accent {
-  color: var(--blue);
-}
-
-.brand-name {
-  font-size: 1.05rem;
-  font-weight: 700;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.nav a {
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.nav a:hover {
-  color: var(--text);
-}
-
-.topbar-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.primary-button,
-.ghost-button {
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 0.8rem 1rem;
-  cursor: pointer;
-  transition: transform 0.18s ease, border-color 0.2s ease;
-}
-
-.primary-button {
-  background: linear-gradient(135deg, var(--blue), #7d6dff);
-  color: white;
-  border: none;
-  font-weight: 600;
-}
-
-.ghost-button {
-  background: rgba(255,255,255,0.02);
-  color: var(--text);
-}
-
-.primary-button:hover,
-.ghost-button:hover {
-  transform: translateY(-1px);
-}
-
-.small {
-  padding: 0.55rem 0.8rem;
-  font-size: 0.8rem;
-}
-
-.dashboard {
-  margin-top: 24px;
-  display: grid;
-  gap: 20px;
-}
-
-.panel {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  box-shadow: var(--shadow);
-  padding: 18px 18px 16px;
-}
-
-.hero-panel {
-  display: grid;
-  gap: 20px;
-}
-
-.hero-header,
-.panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.hero-header h1,
-.panel-header h2 {
-  margin: 6px 0 0 0;
-}
-
-.hero-header h1 {
-  font-size: clamp(2rem, 3vw, 3rem);
-  line-height: 1.1;
-}
-
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid rgba(57, 217, 138, 0.2);
-  background: rgba(57, 217, 138, 0.08);
-  color: var(--green);
-  border-radius: 999px;
-  padding: 0.45rem 0.8rem;
-  font-size: 0.78rem;
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 10px rgba(57, 217, 138, 0.8);
-}
-
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.metric-card {
-  background: linear-gradient(180deg, rgba(17, 24, 32, 0.9), rgba(11, 17, 23, 0.9));
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 16px;
-}
-
-.metric-label {
-  font-size: 0.74rem;
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-  color: var(--muted);
-}
-
-.metric-value {
-  margin-top: 12px;
-  font-size: clamp(1.3rem, 2vw, 2rem);
-  font-weight: 700;
-}
-
-.metric-delta {
-  margin-top: 8px;
-  font-size: 0.82rem;
-  font-weight: 600;
-}
-
-.positive { color: var(--green); }
-.negative { color: var(--red); }
-
-.content-grid,
-.bottom-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 2.1fr) minmax(320px, 0.9fr);
-  gap: 20px;
-}
-
-.side-stack {
-  display: grid;
-  gap: 20px;
-}
-
-.table-wrap {
-  margin-top: 16px;
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  text-align: left;
-  padding: 12px 10px;
-  border-bottom: 1px solid var(--line);
-}
-
-th {
-  color: var(--muted);
-  font-size: 0.74rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-.pair-cell {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.coin-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 9px;
-  background: linear-gradient(135deg, rgba(94, 162, 255, 0.2), rgba(125, 109, 255, 0.2));
-  color: var(--text);
-  font-weight: 700;
-}
-
-.coin-badge.alt {
-  background: linear-gradient(135deg, rgba(57, 217, 138, 0.2), rgba(94, 162, 255, 0.2));
-}
-
-.coin-stack {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.coin-name {
-  font-weight: 600;
-}
-
-.coin-meta {
-  color: var(--muted);
-  font-size: 0.7rem;
-}
-
-.signal-pill {
-  display: inline-flex;
-  border-radius: 999px;
-  padding: 0.38rem 0.7rem;
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  font-weight: 700;
-}
-
-.signal-pill.buy {
-  background: var(--green-soft);
-  color: var(--green);
-}
-
-.signal-pill.sell {
-  background: var(--red-soft);
-  color: var(--red);
-}
-
-.signal-pill.watch {
-  background: rgba(247, 199, 106, 0.12);
-  color: var(--amber);
-}
-
-.signal-list,
-.strategy-list,
-.position-list,
-.command-stack {
-  display: grid;
-  gap: 12px;
-}
-
-.prediction-card,
-.strategy-item,
-.command-card {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 12px 14px;
-}
-
-.prediction-topline,
-.strategy-item,
-.position-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.prediction-score {
-  margin: 10px 0 6px;
-  font-size: 1.8rem;
-  font-weight: 700;
-}
-
-.progress-bar {
-  height: 8px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.progress-bar span {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, var(--green), var(--blue));
-}
-
-.prediction-foot,
-.strategy-meta {
-  color: var(--muted);
-  margin-top: 8px;
-  font-size: 0.75rem;
-}
-
-.strategy-name,
-.command-card strong {
-  font-weight: 600;
-}
-
-.strategy-rr {
-  color: var(--blue);
-  font-weight: 700;
-}
-
-.position-row {
-  padding: 8px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.position-row:last-child {
-  border-bottom: none;
-}
-
-.command-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-@media (max-width: 980px) {
-  .content-grid,
-  .bottom-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .metric-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 640px) {
-  .app-shell {
-    width: min(100% - 20px, 1440px);
-    margin-top: 16px;
-  }
-
-  .topbar {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .nav {
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .topbar-actions {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .metric-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-header,
-  .panel-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-}
+export type MarketRow = {
+  symbol: string;
+  exchange: string;
+  price: number;
+  hourChange: number;
+  dayChange: number;
+  volume: number;
+  signal: "BUY" | "SELL" | "WATCH";
+};
+
+export type Metric = {
+  label: string;
+  value: string;
+  delta: string;
+  positive: boolean;
+};
+
+export type WatchItem = {
+  symbol: string;
+  bias: "Bullish" | "Bearish";
+  confidence: number;
+  note: string;
+};
+
+export type StrategyCard = {
+  name: string;
+  status: "Live" | "Paused" | "Standby";
+  rr: string;
+  alpha: string;
+  mode: string;
+  system: number;
+};
+
+export type Position = {
+  symbol: string;
+  side: "LONG" | "SHORT";
+  size: string;
+  entry: number;
+  pnl: number;
+};
+
+export type TradeLogEntry = {
+  id: number;
+  pair: string;
+  side: "BUY" | "SELL";
+  price: string;
+  time: string;
+};
+
+export type BotStatus = {
+  name: string;
+  value: string;
+  state: string;
+  healthy: boolean;
+};
+
+export const metrics: Metric[] = [
+  { label: "Market cap", value: "$2.49T", delta: "+2.4%", positive: true },
+  { label: "24h volume", value: "$91.3B", delta: "+6.7%", positive: true },
+  { label: "Active bots", value: "18", delta: "+3", positive: true },
+  { label: "Win rate", value: "67.8%", delta: "-1.2%", positive: false },
+];
+
+export const marketRows: MarketRow[] = [
+  { symbol: "BTC/USDT", exchange: "Binance", price: 68422.1, hourChange: 1.8, dayChange: 4.3, volume: 5200000000, signal: "BUY" },
+  { symbol: "ETH/USDT", exchange: "Bybit", price: 3528.42, hourChange: -0.6, dayChange: 2.1, volume: 2900000000, signal: "WATCH" },
+  { symbol: "SOL/USDT", exchange: "OKX", price: 168.09, hourChange: 3.1, dayChange: 7.8, volume: 1800000000, signal: "BUY" },
+  { symbol: "XRP/USDT", exchange: "Kraken", price: 0.622, hourChange: 2.4, dayChange: 5.9, volume: 980000000, signal: "BUY" },
+  { symbol: "DOGE/USDT", exchange: "Bitget", price: 0.176, hourChange: 4.8, dayChange: 11.2, volume: 760000000, signal: "BUY" },
+  { symbol: "ADA/USDT", exchange: "Gate", price: 0.73, hourChange: -1.2, dayChange: -0.9, volume: 520000000, signal: "SELL" },
+];
+
+export const watchlist: WatchItem[] = [
+  { symbol: "BTC", bias: "Bullish", confidence: 81, note: "Trend continuation above 68k" },
+  { symbol: "ETH", bias: "Bullish", confidence: 76, note: "Breakout on 1H structure" },
+  { symbol: "SOL", bias: "Bullish", confidence: 88, note: "Momentum acceleration" },
+  { symbol: "LINK", bias: "Bearish", confidence: 61, note: "Range pressure building" },
+];
+
+export const strategyCards: StrategyCard[] = [
+  { name: "Trend Pulse", status: "Live", rr: "1.9R", alpha: "Low risk", mode: "Momentum", system: 82 },
+  { name: "Grid Alpha", status: "Paused", rr: "1.5R", alpha: "Range", mode: "Mean revert", system: 64 },
+  { name: "Breakout AI", status: "Live", rr: "2.3R", alpha: "Fast entry", mode: "Volatility", system: 86 },
+  { name: "Safe Drift", status: "Standby", rr: "1.1R", alpha: "Conservative", mode: "Trend", system: 58 },
+];
+
+export const positions: Position[] = [
+  { symbol: "BTC", side: "LONG", size: "0.42 BTC", entry: 67890.0, pnl: 820.4 },
+  { symbol: "SOL", side: "LONG", size: "42 SOL", entry: 162.8, pnl: 220.2 },
+  { symbol: "ETH", side: "SHORT", size: "0.82 ETH", entry: 3590.1, pnl: -48.3 },
+];
+
+export const tradeLog: TradeLogEntry[] = [
+  { id: 1, pair: "BTC/USDT", side: "BUY", price: "$68,430", time: "09:42" },
+  { id: 2, pair: "SOL/USDT", side: "BUY", price: "$168.20", time: "09:38" },
+  { id: 3, pair: "ETH/USDT", side: "SELL", price: "$3,554", time: "09:31" },
+  { id: 4, pair: "DOGE/USDT", side: "BUY", price: "$0.176", time: "09:22" },
+];
+
+export const botStatuses: BotStatus[] = [
+  { name: "Signal feed", value: "99.2%", state: "Healthy", healthy: true },
+  { name: "Execution node", value: "12 ms", state: "Nominal", healthy: true },
+  { name: "Risk engine", value: "Stable", state: "Healthy", healthy: true },
+  { name: "Latency", value: "112 ms", state: "Responsive", healthy: true },
+];
+
+export const chartSeries: Record<string, number[]> = {
+  "BTC/USDT": [32, 41, 36, 47, 52, 50, 58, 63, 60, 68, 72, 80],
+  "ETH/USDT": [28, 33, 30, 39, 36, 41, 46, 44, 50, 53, 58, 62],
+  "SOL/USDT": [20, 32, 38, 45, 48, 55, 64, 68, 72, 74, 79, 82],
+  "XRP/USDT": [24, 26, 32, 30, 35, 38, 40, 42, 47, 45, 48, 46],
+  "DOGE/USDT": [18, 29, 35, 37, 44, 47, 52, 61, 58, 66, 69, 73],
+  "ADA/USDT": [26, 24, 20, 26, 22, 27, 33, 31, 29, 26, 24, 28],
+};
