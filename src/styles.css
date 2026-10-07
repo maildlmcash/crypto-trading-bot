@@ -1,0 +1,72 @@
+export type MarketRow = {
+  symbol: string;
+  exchange: string;
+  price: number;
+  hourChange: number;
+  dayChange: number;
+  volume: number;
+  signal: "BUY" | "SELL" | "WATCH";
+};
+
+export type Metric = {
+  label: string;
+  value: string;
+  delta: string;
+  positive: boolean;
+};
+
+export type PredictionCard = {
+  symbol: string;
+  bias: "Bullish" | "Bearish";
+  confidence: number;
+  note: string;
+};
+
+export type Strategy = {
+  name: string;
+  status: string;
+  rr: string;
+};
+
+export type Position = {
+  symbol: string;
+  side: "LONG" | "SHORT";
+  size: string;
+  entry: number;
+  pnl: number;
+};
+
+export const metrics: Metric[] = [
+  { label: "Market cap", value: "$2.49T", delta: "+2.4%", positive: true },
+  { label: "24h volume", value: "$91.3B", delta: "+6.7%", positive: true },
+  { label: "Active bots", value: "18", delta: "+3", positive: true },
+  { label: "Win rate", value: "67.8%", delta: "-1.2%", positive: false },
+];
+
+export const marketRows: MarketRow[] = [
+  { symbol: "BTC/USDT", exchange: "Binance", price: 68422.1, hourChange: 1.8, dayChange: 4.3, volume: 5200000000, signal: "BUY" },
+  { symbol: "ETH/USDT", exchange: "Bybit", price: 3528.42, hourChange: -0.6, dayChange: 2.1, volume: 2900000000, signal: "WATCH" },
+  { symbol: "SOL/USDT", exchange: "OKX", price: 168.09, hourChange: 3.1, dayChange: 7.8, volume: 1800000000, signal: "BUY" },
+  { symbol: "XRP/USDT", exchange: "Kraken", price: 0.622, hourChange: 2.4, dayChange: 5.9, volume: 980000000, signal: "BUY" },
+  { symbol: "DOGE/USDT", exchange: "Bitget", price: 0.176, hourChange: 4.8, dayChange: 11.2, volume: 760000000, signal: "BUY" },
+  { symbol: "ADA/USDT", exchange: "Gate", price: 0.73, hourChange: -1.2, dayChange: -0.9, volume: 520000000, signal: "SELL" },
+];
+
+export const predictionCards: PredictionCard[] = [
+  { symbol: "BTC", bias: "Bullish", confidence: 81, note: "Trend continuation above 68k" },
+  { symbol: "ETH", bias: "Bullish", confidence: 76, note: "Breakout on 1H structure" },
+  { symbol: "SOL", bias: "Bullish", confidence: 88, note: "Momentum acceleration" },
+  { symbol: "LINK", bias: "Bearish", confidence: 61, note: "Range pressure building" },
+];
+
+export const strategies: Strategy[] = [
+  { name: "Trend Pulse", status: "Running", rr: "1.9R" },
+  { name: "Grid Alpha", status: "Paused", rr: "1.5R" },
+  { name: "Breakout AI", status: "Running", rr: "2.3R" },
+];
+
+export const positions: Position[] = [
+  { symbol: "BTC", side: "LONG", size: "0.42 BTC", entry: 67890.0, pnl: 820.4 },
+  { symbol: "SOL", side: "LONG", size: "42 SOL", entry: 162.8, pnl: 220.2 },
+  { symbol: "ETH", side: "SHORT", size: "0.82 ETH", entry: 3590.1, pnl: -48.3 },
+];
